@@ -65,66 +65,29 @@ public class Simulator {
 
     private void addPitchLines(){
         PitchLine horizon = new PitchLine(1000,0);
-        PitchLine five = new PitchLine(100, 100);
-        PitchLine minfive = new PitchLine(100, -100);
-        PitchLine ten = new PitchLine(200, 200);
-        PitchLine minten = new PitchLine(200, -200);
-        PitchLine fifteen = new PitchLine(100, 300);
-        PitchLine minfifteen = new PitchLine(100, -300);
-        PitchLine twenty = new PitchLine(200, 400);
-        PitchLine mintwenty = new PitchLine(200, -400);
-        PitchLine twentyfive = new PitchLine(100, 500);
-        PitchLine mintwentyfive = new PitchLine(100, -500);
-
         pitchLines.add(horizon);
-        pitchLines.add(five);
-        pitchLines.add(minfive);
-        pitchLines.add(ten);
-        pitchLines.add(minten);
-        pitchLines.add(fifteen);
-        pitchLines.add(minfifteen);
-        pitchLines.add(twenty);
-        pitchLines.add(mintwenty);
-        pitchLines.add(twentyfive);
-        pitchLines.add(mintwentyfive);
+
+        for (int p1 = -500; p1 < 700; p1 += 200){
+            pitchLines.add(new PitchLine(100,p1));
+        }
+
+        for (int p2 = -400; p2 < 600; p2 += 200){
+            if (p2 != 0) {
+                pitchLines.add(new PitchLine(200, p2));
+            }
+        }
+
     }
 
     private void addRollLines(){
-        RollLine zero = new RollLine(50,0);
-        RollLine ten = new RollLine(25,Math.toRadians(10));
-        RollLine minten = new RollLine(25,Math.toRadians(-10));
-        RollLine twenty = new RollLine(50,Math.toRadians(20));
-        RollLine mintwenty = new RollLine(50,Math.toRadians(-20));
-        RollLine thirty = new RollLine(25,Math.toRadians(30));
-        RollLine minthirty = new RollLine(25,Math.toRadians(-30));
-        RollLine fourty = new RollLine(50,Math.toRadians(40));
-        RollLine minfourty = new RollLine(50,Math.toRadians(-40));
-        RollLine fifty = new RollLine(25,Math.toRadians(50));
-        RollLine minfifty = new RollLine(25,Math.toRadians(-50));
-        RollLine sixty = new RollLine(50,Math.toRadians(60));
-        RollLine minsixty = new RollLine(50,Math.toRadians(-60));
-        RollLine seventy = new RollLine(25,Math.toRadians(70));
-        RollLine minseventy = new RollLine(25,Math.toRadians(-70));
-        RollLine eighty = new RollLine(50,Math.toRadians(80));
-        RollLine mineighty = new RollLine(50,Math.toRadians(-80));
+        for (int r1 = -80; r1 < 100; r1 += 20){
+            rollLines.add(new RollLine(50,Math.toRadians(r1)));
+        }
 
-        rollLines.add(zero);
-        rollLines.add(ten);
-        rollLines.add(minten);
-        rollLines.add(twenty);
-        rollLines.add(mintwenty);
-        rollLines.add(thirty);
-        rollLines.add(minthirty);
-        rollLines.add(fourty);
-        rollLines.add(minfourty);
-        rollLines.add(fifty);
-        rollLines.add(minfifty);
-        rollLines.add(sixty);
-        rollLines.add(minsixty);
-        rollLines.add(seventy);
-        rollLines.add(minseventy);
-        rollLines.add(eighty);
-        rollLines.add(mineighty);
+        for (int r2 = -70; r2 < 90; r2 += 20){
+            rollLines.add(new RollLine(25,Math.toRadians(r2)));
+        }
+
     }
 
     private void calculateSides() {
@@ -164,7 +127,7 @@ public class Simulator {
             Graphics2D graphics2d = (Graphics2D) graphics;
             graphics2d.setColor(Color.black);
 
-            int xm = (int) (midX + Math.pow(Math.sin(phi),2) * Math.toDegrees(theta));
+            int xm = (int) (midX + Math.pow(Math.sin(phi),1) * Math.toDegrees(theta));
             int ym = (int) (midY + Math.pow(Math.cos(phi),2) * Math.toDegrees(theta));
 
             for (PitchLine pitchLine:pitchLines){
