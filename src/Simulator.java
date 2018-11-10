@@ -15,7 +15,7 @@ public class Simulator {
     private static final int SAMPLE_FREQUENCY = 100;
     private TextField textField;
     private double theta, phi; // Euler angles body frame
-    protected static final int screenHeight = 800, screenWidth = 1000;
+    protected static final int screenHeight = 800, screenWidth = 1000, pitchSpacing = 10, deg2pxl = 20;
     private double left, right, halfBarLength, midX, midY;
     public static double psi_i,theta_i; // Euler angle inertial frame
     private ArrayList<PitchLine> pitchLines = new ArrayList<>();
@@ -42,8 +42,15 @@ public class Simulator {
         calculateSides();
         aircraftSymbol = new AircraftSymbol(left,right);
 
-        addPitchLines();
-        addRollLines();
+        // Add pitch ladder
+        PitchLine horizon = new PitchLine(1000,0);
+        pitchLines.add(horizon);
+        addPitchLines(-25, 25, 100);
+        addPitchLines(-20, 20, 200);
+
+        // Add roll indicator
+        addRollLines(-80, 80, 20, 50);
+        addRollLines(-70, 70, 20, 25);
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(6,1));
@@ -63,29 +70,23 @@ public class Simulator {
 
     }
 
-    private void addPitchLines(){
-        PitchLine horizon = new PitchLine(1000,0);
-        pitchLines.add(horizon);
+    private void addPitchLines(int start, int end, int length){
+        // Conversion from degrees to pixels
+        int spacing = pitchSpacing * deg2pxl;
+        int startPitch = start * deg2pxl;
+        int endPitch = end * deg2pxl + spacing;
 
-        for (int p1 = -500; p1 < 700; p1 += 200){
-            pitchLines.add(new PitchLine(100,p1));
-        }
-
-        for (int p2 = -400; p2 < 600; p2 += 200){
-            if (p2 != 0) {
-                pitchLines.add(new PitchLine(200, p2));
+        for (int p1 = startPitch; p1 < endPitch; p1 += spacing){
+            if (p1 != 0) {
+                pitchLines.add(new PitchLine(length, p1));
             }
         }
 
     }
 
-    private void addRollLines(){
-        for (int r1 = -80; r1 < 100; r1 += 20){
-            rollLines.add(new RollLine(50,Math.toRadians(r1)));
-        }
-
-        for (int r2 = -70; r2 < 90; r2 += 20){
-            rollLines.add(new RollLine(25,Math.toRadians(r2)));
+    private void addRollLines(int start, int end, int spacing, int length){
+        for (int r1 = start; r1 < end + spacing; r1 += spacing){
+            rollLines.add(new RollLine(length,Math.toRadians(r1)));
         }
 
     }
@@ -101,16 +102,13 @@ public class Simulator {
     private ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent evt) {
 
-            textField.setText("theta = " + String.format("%.1f",2.86*theta) + " deg; phi = " +
+            theta = cessnaPitch.performPitchCalculation(controlSignal.getElevator());
+            phi = cessnaPitch.performRollCalculation(controlSignal.getAileron());
+
+            textField.setText("theta = " + String.format("%.1f",theta) + " deg; phi = " +
                     String.format("%.1f",Math.toDegrees(phi)) + " deg; delta_e = " +
                     String.format("%.1f",controlSignal.getElevator()) + " deg; delta_a = " +
                     String.format("%.1f",controlSignal.getAileron()) + " deg");
-
-            cessnaPitch.performPitchCalculation(controlSignal.getElevator());
-            cessnaPitch.performRollCalculation(controlSignal.getAileron());
-
-            theta = cessnaPitch.getTheta();
-            phi = cessnaPitch.getPhi();
 
             indicators.repaint();
         }
@@ -127,8 +125,8 @@ public class Simulator {
             Graphics2D graphics2d = (Graphics2D) graphics;
             graphics2d.setColor(Color.black);
 
-            int xm = (int) (midX + Math.pow(Math.sin(phi),1) * Math.toDegrees(theta));
-            int ym = (int) (midY + Math.pow(Math.cos(phi),2) * Math.toDegrees(theta));
+            int xm = (int) (midX + Math.pow(Math.sin(phi),1) * theta * deg2pxl);
+            int ym = (int) (midY + Math.pow(Math.cos(phi),2) * theta * deg2pxl);
 
             for (PitchLine pitchLine:pitchLines){
                 pitchLine.draw(graphics2d, xm, ym, phi); // Draw the pitch angle indications

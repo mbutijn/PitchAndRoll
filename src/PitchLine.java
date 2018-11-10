@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class PitchLine {
 
-    private int halfwidth, pitchdistance;
+    private int halfwidth, pitchdistance; // 20 pixel per degree
 
     protected PitchLine(int width, int distance){
         halfwidth = width;
