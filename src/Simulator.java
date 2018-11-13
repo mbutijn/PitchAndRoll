@@ -7,19 +7,20 @@ import java.util.ArrayList;
 public class Simulator {
 
     private Indicators indicators;
-    private ControlSignal controlSignal;
+    public static ControlSignal controlSignal;
     private AircraftSymbol aircraftSymbol;
     private Timer timer;
-    public CessnaDynamics cessnaPitch;
+    CessnaDynamics cessnaPitch;
 
-    private static final int SAMPLE_FREQUENCY = 100;
+    private static final int SAMPLE_FREQUENCY = 100; // Hz
     private TextField textField;
     private double theta, phi; // Euler angles body frame
-    protected static final int screenHeight = 800, screenWidth = 1000, pitchSpacing = 10, deg2pxl = 20;
+    static final int screenHeight = 800, screenWidth = 1000;
+    static private int deg2pxl = 20;
     private double left, right, halfBarLength, midX, midY;
-    public static double psi_i,theta_i; // Euler angle inertial frame
     private ArrayList<PitchLine> pitchLines = new ArrayList<>();
     private ArrayList<RollLine> rollLines = new ArrayList<>();
+    Pause pauseButton;
 
     public static void main (String[] arg){
         JFrame frame = new JFrame("Pitch and roll simulator");
@@ -45,8 +46,9 @@ public class Simulator {
         // Add pitch ladder
         PitchLine horizon = new PitchLine(1000,0);
         pitchLines.add(horizon);
-        addPitchLines(-25, 25, 100);
-        addPitchLines(-20, 20, 200);
+        addPitchLines(-30.0, 30.0, 10, 200); // every 10 degrees
+        addPitchLines(-25.0, 25.0, 10, 140); // every 5 degrees
+        addPitchLines(-17.5, 17.5, 5, 80); // every 2.5 degrees
 
         // Add roll indicator
         addRollLines(-80, 80, 20, 50);
@@ -54,9 +56,9 @@ public class Simulator {
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(6,1));
-        Restart restart = new Restart();
-        JButton restartButton = restart.makeButton(simulator);
-        panel.add(restartButton);
+        panel.add(new Restart(simulator).makeButton());
+        pauseButton = new Pause(simulator);
+        panel.add(pauseButton.makeButton());
 
         JPanel panel2 = new JPanel();
         panel2.add(panel, BorderLayout.CENTER);
@@ -70,13 +72,13 @@ public class Simulator {
 
     }
 
-    private void addPitchLines(int start, int end, int length){
+    private void addPitchLines(double start, double end, int pitchSpacing, int length){
         // Conversion from degrees to pixels
         int spacing = pitchSpacing * deg2pxl;
-        int startPitch = start * deg2pxl;
-        int endPitch = end * deg2pxl + spacing;
+        double startPitch = start * deg2pxl;
+        double endPitch = end * deg2pxl + spacing;
 
-        for (int p1 = startPitch; p1 < endPitch; p1 += spacing){
+        for (double p1 = startPitch; p1 < endPitch; p1 += spacing){
             if (p1 != 0) {
                 pitchLines.add(new PitchLine(length, p1));
             }
@@ -102,8 +104,8 @@ public class Simulator {
     private ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent evt) {
 
-            theta = cessnaPitch.performPitchCalculation(controlSignal.getElevator());
             phi = cessnaPitch.performRollCalculation(controlSignal.getAileron());
+            theta = cessnaPitch.performPitchCalculation(Math.cos(phi)*controlSignal.getElevator());
 
             textField.setText("theta = " + String.format("%.1f",theta) + " deg; phi = " +
                     String.format("%.1f",Math.toDegrees(phi)) + " deg; delta_e = " +
@@ -114,7 +116,7 @@ public class Simulator {
         }
     };
 
-    protected Timer getTimer() {
+    Timer getTimer() {
         return timer;
     }
 
@@ -126,7 +128,7 @@ public class Simulator {
             graphics2d.setColor(Color.black);
 
             int xm = (int) (midX + Math.pow(Math.sin(phi),1) * theta * deg2pxl);
-            int ym = (int) (midY + Math.pow(Math.cos(phi),2) * theta * deg2pxl);
+            int ym = (int) (midY + Math.pow(Math.cos(phi),1) * theta * deg2pxl);
 
             for (PitchLine pitchLine:pitchLines){
                 pitchLine.draw(graphics2d, xm, ym, phi); // Draw the pitch angle indications

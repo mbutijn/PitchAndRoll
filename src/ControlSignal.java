@@ -6,13 +6,13 @@ import java.awt.event.MouseEvent;
 /**
  * Created by martin on 6-7-2017.
  */
-public class ControlSignal {
+class ControlSignal {
 
     private JFrame frame;
     private boolean controlling = true;
-    private double lastAileron = 0, lastElevator = 0;
+    double lastAileron, lastElevator = 0;
 
-    public ControlSignal(JFrame f) {
+    ControlSignal(JFrame f) {
         frame = f;
         frame.addMouseListener(new MouseAdapter() {
             @Override
@@ -23,7 +23,7 @@ public class ControlSignal {
         });
     }
 
-    public double getElevator() {
+    double getElevator() {
         double mousePositionY = MouseInfo.getPointerInfo().getLocation().getY()-frame.getY();
 
         if(mousePositionY < 0) {
@@ -37,7 +37,7 @@ public class ControlSignal {
         return lastElevator;
     }
 
-    public double getAileron() {
+    double getAileron() {
         double mousePositionX = MouseInfo.getPointerInfo().getLocation().getX()-frame.getX();
 
         if(mousePositionX < 0) {

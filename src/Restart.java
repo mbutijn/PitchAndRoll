@@ -5,29 +5,35 @@ import java.awt.event.ActionListener;
 /**
  * Created by martin on 7-7-2017.
  */
-public class Restart {
+class Restart {
 
     private Simulator simulator;
-    public static JButton restartButton;
+    private static JButton restartButton;
 
-    protected JButton makeButton(Simulator simulator) {
+    Restart(Simulator simulator){
         this.simulator = simulator;
+    }
+
+    JButton makeButton() {
         restartButton = new JButton("Start");
-        restartButton.addActionListener( new Restarter());
-        restartButton.setSize(100,50);
+        restartButton.addActionListener(new Restarter());
+        restartButton.setSize(150,50);
 
         return restartButton;
     }
 
     private class Restarter implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            simulator.cessnaPitch.resetControls();
             simulator.cessnaPitch.reset();
 
-            if (restartButton.getText().equals("Start") || restartButton.getText().equals("Restart") || restartButton.getText().equals("Hold current")) {
+            if (restartButton.getText().equals("Start") || restartButton.getText().equals("Restart")) {
                 restartButton.setText("Stop");
+                simulator.pauseButton.pauseButton.setEnabled(true);
                 simulator.getTimer().start();
             } else if (restartButton.getText().equals("Stop")){
                 simulator.getTimer().stop();
+                simulator.pauseButton.pauseButton.setEnabled(false);
                 restartButton.setText("Restart");
             }
         }

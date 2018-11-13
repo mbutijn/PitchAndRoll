@@ -1,15 +1,16 @@
 import java.awt.*;
 
-public class PitchLine {
+class PitchLine {
 
-    private int halfwidth, pitchdistance; // 20 pixel per degree
+    private int halfwidth;
+    private double pitchdistance; // 20 pixel per degree
 
-    protected PitchLine(int width, int distance){
+    PitchLine(int width, double distance){
         halfwidth = width;
         pitchdistance = distance;
     }
 
-    public void draw(Graphics2D graphics2d, double xm, double ym, double phi){
+    void draw(Graphics2D graphics2d, double xm, double ym, double phi){
 
         int xl = (int) (xm - halfwidth * Math.cos(phi) - pitchdistance * Math.sin(phi)); // left
         int xr = (int) (xm + halfwidth * Math.cos(phi) - pitchdistance * Math.sin(phi)); // right
