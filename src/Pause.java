@@ -5,14 +5,13 @@ import java.awt.event.ActionListener;
 class Pause {
 
     private Simulator simulator;
-    JButton pauseButton;
+    private static JButton pauseButton = new JButton("Pause");
 
     Pause(Simulator simulator){
         this.simulator = simulator;
     }
 
     JButton makeButton() {
-        pauseButton = new JButton("Pause");
         pauseButton.addActionListener(new PauseButton());
         pauseButton.setSize(150,50);
 

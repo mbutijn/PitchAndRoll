@@ -10,7 +10,7 @@ class ControlSignal {
 
     private JFrame frame;
     private boolean controlling = true;
-    double lastAileron, lastElevator = 0;
+    private double lastAileron, lastElevator = 0;
 
     ControlSignal(JFrame f) {
         frame = f;
@@ -18,13 +18,18 @@ class ControlSignal {
             @Override
             public void mouseClicked(MouseEvent e) {
                 controlling = !controlling;
+                if (controlling) {
+                    Simulator.setControlMessage("");
+                } else {
+                    Simulator.setControlMessage(", Click on the screen for mouse control");
+                }
                 System.out.println("controlling pitch and roll: " + controlling);
             }
         });
     }
 
     double getElevator() {
-        double mousePositionY = MouseInfo.getPointerInfo().getLocation().getY()-frame.getY();
+        double mousePositionY = getPoint().getY() - frame.getY();
 
         if(mousePositionY < 0) {
             mousePositionY = 0;
@@ -32,13 +37,13 @@ class ControlSignal {
             mousePositionY = Simulator.screenHeight;
         }
         if(isControlling()) {
-           lastElevator = 0.02 * (mousePositionY - 0.5 * Simulator.screenHeight);
+           lastElevator = 0.03 * (mousePositionY - 0.5 * Simulator.screenHeight);
         }
         return lastElevator;
     }
 
     double getAileron() {
-        double mousePositionX = MouseInfo.getPointerInfo().getLocation().getX()-frame.getX();
+        double mousePositionX = getPoint().getX() - frame.getX();
 
         if(mousePositionX < 0) {
             mousePositionX = 0;
@@ -46,9 +51,18 @@ class ControlSignal {
             mousePositionX = Simulator.screenWidth;
         }
         if(isControlling()) {
-            lastAileron = 0.01 * (mousePositionX - 0.5 * Simulator.screenWidth);
+            lastAileron = 0.005 * (mousePositionX - 0.5 * Simulator.screenWidth);
         }
         return lastAileron;
+    }
+
+    private Point getPoint(){
+        return MouseInfo.getPointerInfo().getLocation();
+    }
+
+    void reset(){
+        lastAileron = 0;
+        lastElevator = 0;
     }
 
     private boolean isControlling() {

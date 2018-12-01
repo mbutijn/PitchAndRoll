@@ -6,24 +6,26 @@ import java.util.ArrayList;
 
 public class Simulator {
 
-    private Indicators indicators;
-    public static ControlSignal controlSignal;
+    private Indicators indicators = new Indicators();
+    ControlSignal controlSignal;
     private AircraftSymbol aircraftSymbol;
     private Timer timer;
-    CessnaDynamics cessnaPitch;
+    PitchDynamics pitchDynamics;
+    RollDynamics rollDynamics;
+    private static String controlMessage = "";
 
-    private static final int SAMPLE_FREQUENCY = 100; // Hz
-    private TextField textField;
+    private static final int SAMPLE_FREQUENCY = 100; // Hertz
+    private TextField textField = new TextField();
     private double theta, phi; // Euler angles body frame
     static final int screenHeight = 800, screenWidth = 1000;
-    static private int deg2pxl = 20;
+    static private int deg2pxl = 20; // One degree is 20 pixels
     private double left, right, halfBarLength, midX, midY;
     private ArrayList<PitchLine> pitchLines = new ArrayList<>();
     private ArrayList<RollLine> rollLines = new ArrayList<>();
-    Pause pauseButton;
+    static JButton pauseButton;
 
     public static void main (String[] arg){
-        JFrame frame = new JFrame("Pitch and roll simulator");
+        JFrame frame = new JFrame("Cessna pitch and roll simulator");
         Simulator simulator = new Simulator();
         simulator.makeUI(frame, simulator);
 
@@ -34,31 +36,29 @@ public class Simulator {
     }
 
     private void makeUI(JFrame frame, Simulator simulator){
-        indicators = new Indicators();
         frame.getContentPane().add(BorderLayout.CENTER, indicators);
 
-        textField = new TextField();
         textField.setEditable(false);
         controlSignal = new ControlSignal(frame);
         calculateSides();
-        aircraftSymbol = new AircraftSymbol(left,right);
+        aircraftSymbol = new AircraftSymbol(left, right);
 
         // Add pitch ladder
-        PitchLine horizon = new PitchLine(1000,0);
+        PitchLine horizon = new PitchLine(1000, 0);
         pitchLines.add(horizon);
-        addPitchLines(-30.0, 30.0, 10, 200); // every 10 degrees
-        addPitchLines(-25.0, 25.0, 10, 140); // every 5 degrees
-        addPitchLines(-17.5, 17.5, 5, 80); // every 2.5 degrees
+        addPitchLines(-40.0, 40.0, 10, 200); // every 10 degrees
+        addPitchLines(-35.0, 35.0, 10, 133); // every 5 degrees
+        addPitchLines(-17.5, 17.5, 5, 67); // every 2.5 degrees
 
         // Add roll indicator
         addRollLines(-80, 80, 20, 50);
         addRollLines(-70, 70, 20, 25);
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(6,1));
+        panel.setLayout(new GridLayout(6, 1));
         panel.add(new Restart(simulator).makeButton());
-        pauseButton = new Pause(simulator);
-        panel.add(pauseButton.makeButton());
+        pauseButton = new Pause(simulator).makeButton();
+        panel.add(pauseButton);
 
         JPanel panel2 = new JPanel();
         panel2.add(panel, BorderLayout.CENTER);
@@ -66,7 +66,9 @@ public class Simulator {
         frame.getContentPane().add(BorderLayout.NORTH, textField);
         frame.getContentPane().add(BorderLayout.EAST, panel2);
 
-        cessnaPitch = new CessnaDynamics(SAMPLE_FREQUENCY);
+        pitchDynamics = new PitchDynamics(SAMPLE_FREQUENCY);
+        rollDynamics = new RollDynamics(SAMPLE_FREQUENCY);
+
         timer = new Timer(1000 / SAMPLE_FREQUENCY, actionListener);
         timer.setRepeats(true);
 
@@ -78,19 +80,18 @@ public class Simulator {
         double startPitch = start * deg2pxl;
         double endPitch = end * deg2pxl + spacing;
 
-        for (double p1 = startPitch; p1 < endPitch; p1 += spacing){
-            if (p1 != 0) {
-                pitchLines.add(new PitchLine(length, p1));
+        for (double pitch = startPitch; pitch < endPitch; pitch += spacing){
+            if (pitch != 0) {
+                pitchLines.add(new PitchLine(length, pitch));
             }
         }
 
     }
 
     private void addRollLines(int start, int end, int spacing, int length){
-        for (int r1 = start; r1 < end + spacing; r1 += spacing){
-            rollLines.add(new RollLine(length,Math.toRadians(r1)));
+        for (int roll = start; roll < end + spacing; roll += spacing){
+            rollLines.add(new RollLine(length,Math.toRadians(roll)));
         }
-
     }
 
     private void calculateSides() {
@@ -103,15 +104,19 @@ public class Simulator {
 
     private ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent evt) {
+            // Get the controls
+            double elevator = controlSignal.getElevator();
+            double aileron = controlSignal.getAileron();
 
-            phi = cessnaPitch.performRollCalculation(controlSignal.getAileron());
-            theta = cessnaPitch.performPitchCalculation(Math.cos(phi)*controlSignal.getElevator());
+            // Calculate the attitude angles
+            phi = rollDynamics.update(aileron);
+            theta = pitchDynamics.update(Math.cos(phi)*elevator);
 
-            textField.setText("theta = " + String.format("%.1f",theta) + " deg; phi = " +
-                    String.format("%.1f",Math.toDegrees(phi)) + " deg; delta_e = " +
-                    String.format("%.1f",controlSignal.getElevator()) + " deg; delta_a = " +
-                    String.format("%.1f",controlSignal.getAileron()) + " deg");
+            // Update the text field
+            textField.setText(String.format("theta = %.1f, deg; phi = %.1f, deg; delta_e = %.1f, deg; delta_a = %.1f deg%s",
+                    theta, Math.toDegrees(phi), elevator, aileron, getControlMessage()));
 
+            // Repaint
             indicators.repaint();
         }
     };
@@ -127,29 +132,39 @@ public class Simulator {
             Graphics2D graphics2d = (Graphics2D) graphics;
             graphics2d.setColor(Color.black);
 
-            int xm = (int) (midX + Math.pow(Math.sin(phi),1) * theta * deg2pxl);
-            int ym = (int) (midY + Math.pow(Math.cos(phi),1) * theta * deg2pxl);
+            int xm = (int) (midX + Math.sin(phi) * theta * deg2pxl);
+            int ym = (int) (midY + Math.cos(phi) * theta * deg2pxl);
 
+            // Draw the pitch angle indications
             for (PitchLine pitchLine:pitchLines){
-                pitchLine.draw(graphics2d, xm, ym, phi); // Draw the pitch angle indications
+                pitchLine.draw(graphics2d, xm, ym, phi);
             }
 
             // Draw roll indication
-            graphics.drawArc((int)(midX-0.75*halfBarLength), (int)(midY-0.75*halfBarLength), (int)(1.5*halfBarLength), (int)(1.5*halfBarLength), (int)(Math.round(Math.toDegrees(phi)+10)),160);
-            graphics2d.drawLine((int)(midX-10),50,(int)(midX),70);
-            graphics2d.drawLine((int)(midX),70,(int)(midX+10),50);
+            graphics.drawArc((int)(midX - 0.75*halfBarLength), (int)(midY - 0.75*halfBarLength), (int)(1.5*halfBarLength), (int)(1.5*halfBarLength), (int)(Math.round(Math.toDegrees(phi) + 10)), 160);
+            graphics2d.drawLine((int)(midX - 10), 50, (int)(midX), 70);
+            graphics2d.drawLine((int)(midX), 70, (int)(midX+10), 50);
 
+            // Draw the roll angle indications
             for (RollLine rollLine:rollLines){
-                rollLine.draw(graphics2d, midX, midY, 0.75*halfBarLength, phi);
+                rollLine.draw(graphics2d, midX, midY, 0.75 * halfBarLength, phi);
             }
 
             // Draw the edges
-            graphics2d.drawRect((int)left,50,(int)(right-left),screenHeight-200);
+            graphics2d.drawRect((int)left,50,(int)(right - left), screenHeight - 200);
 
             //Draw the aircraft Symbol
             aircraftSymbol.makeSymbol(graphics2d);
         }
 
+    }
+
+    static void setControlMessage(String message){
+        controlMessage = message;
+    }
+
+    private String getControlMessage() {
+        return controlMessage;
     }
 
 }
