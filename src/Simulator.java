@@ -16,12 +16,14 @@ public class Simulator {
 
     private static final int SAMPLE_FREQUENCY = 100; // Hertz
     private TextField textField = new TextField();
-    private double theta, phi; // Euler angles body frame
+    private double alfa, theta, phi, beta, psi; // Euler angles body frame
     static final int screenHeight = 800, screenWidth = 1000;
-    static private int deg2pxl = 20; // One degree is 20 pixels
-    private double left, right, halfBarLength, midX, midY;
+    static public int deg2pxl = 20; // One degree is 20 pixels
+    private double left, right, halfBarLength;
+    public static double midX, midY;
     private ArrayList<PitchLine> pitchLines = new ArrayList<>();
     private ArrayList<RollLine> rollLines = new ArrayList<>();
+    private ArrayList<HeadingLine> headingLines = new ArrayList<>();
     static JButton pauseButton;
 
     public static void main (String[] arg){
@@ -54,6 +56,10 @@ public class Simulator {
         addRollLines(-80, 80, 20, 50);
         addRollLines(-70, 70, 20, 25);
 
+        // Add heading indicator
+        addHeadingLines(0, 270, 90, 50);
+        addHeadingLines(10, 350, 10, 20);
+
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(6, 1));
         panel.add(new Restart(simulator).makeButton());
@@ -74,23 +80,23 @@ public class Simulator {
 
     }
 
-    private void addPitchLines(double start, double end, int pitchSpacing, int length){
-        // Conversion from degrees to pixels
-        int spacing = pitchSpacing * deg2pxl;
-        double startPitch = start * deg2pxl;
-        double endPitch = end * deg2pxl + spacing;
-
-        for (double pitch = startPitch; pitch < endPitch; pitch += spacing){
+    private void addPitchLines(double start, double end, int spacing, int length){
+        for (double pitch = start; pitch < end + spacing; pitch += spacing){
             if (pitch != 0) {
                 pitchLines.add(new PitchLine(length, pitch));
             }
         }
-
     }
 
     private void addRollLines(int start, int end, int spacing, int length){
         for (int roll = start; roll < end + spacing; roll += spacing){
-            rollLines.add(new RollLine(length,Math.toRadians(roll)));
+            rollLines.add(new RollLine(length, Math.toRadians(roll)));
+        }
+    }
+
+    private void addHeadingLines(int start, int end, int spacing, int length){
+        for (int heading = start; heading < end + spacing + spacing; heading += spacing){
+            headingLines.add(new HeadingLine(length, heading));
         }
     }
 
@@ -109,12 +115,30 @@ public class Simulator {
             double aileron = controlSignal.getAileron();
 
             // Calculate the attitude angles
-            phi = rollDynamics.update(aileron);
-            theta = pitchDynamics.update(Math.cos(phi)*elevator);
+
+            //theta = pitchDynamics.updateThetaOld(-Math.cos(phi)*elevator);
+
+            pitchDynamics.updateU(Math.cos(phi)*elevator);
+            pitchDynamics.updateAlfa(elevator);
+            pitchDynamics.updateTheta();
+            pitchDynamics.updateQC_over_V(Math.cos(phi)*elevator);
+
+            theta = pitchDynamics.getTheta();
+            alfa = pitchDynamics.getAlfa();
+
+            //phi = rollDynamics.updatePhiOld(-aileron);
+            rollDynamics.updateBeta(aileron);
+            rollDynamics.updatePhi(aileron);
+            rollDynamics.updatePb_over_2V(aileron);
+            rollDynamics.updateRb_over_2V(aileron);
+
+            phi = rollDynamics.getPhi();
+            beta = rollDynamics.getBeta();
+            psi = Math.toDegrees(rollDynamics.getPsi());
 
             // Update the text field
-            textField.setText(String.format("theta = %.1f, deg; phi = %.1f, deg; delta_e = %.1f, deg; delta_a = %.1f deg%s",
-                    theta, Math.toDegrees(phi), elevator, aileron, getControlMessage()));
+            textField.setText(String.format("theta = %.1f, deg; phi = %.1f, deg; psi = %.1f, deg; u = %.1f, m/s; delta_e = %.1f, deg; delta_a = %.1f deg%s",
+                    theta, Math.toDegrees(phi), psi, pitchDynamics.u, elevator, aileron, getControlMessage()));
 
             // Repaint
             indicators.repaint();
@@ -136,7 +160,7 @@ public class Simulator {
             int ym = (int) (midY + Math.cos(phi) * theta * deg2pxl);
 
             // Draw the pitch angle indications
-            for (PitchLine pitchLine:pitchLines){
+            for (PitchLine pitchLine : pitchLines){
                 pitchLine.draw(graphics2d, xm, ym, phi);
             }
 
@@ -146,17 +170,24 @@ public class Simulator {
             graphics2d.drawLine((int)(midX), 70, (int)(midX+10), 50);
 
             // Draw the roll angle indications
-            for (RollLine rollLine:rollLines){
-                rollLine.draw(graphics2d, midX, midY, 0.75 * halfBarLength, phi);
+            for (RollLine rollLine : rollLines){
+                rollLine.draw(graphics2d, 0.75 * halfBarLength, phi);
             }
 
             // Draw the edges
-            graphics2d.drawRect((int)left,50,(int)(right - left), screenHeight - 200);
+            //graphics2d.drawRect((int)left,50,(int)(right - left), screenHeight - 200);
+            graphics.drawLine(0, 50, screenWidth, 50);
+
+            for (HeadingLine headingLine : headingLines){
+                headingLine.draw(graphics2d, psi);
+            }
 
             //Draw the aircraft Symbol
             aircraftSymbol.makeSymbol(graphics2d);
-        }
 
+            // Draw the flight path indication
+            aircraftSymbol.makeFlightPathIndicator(graphics2d, deg2pxl*alfa, deg2pxl*beta);
+        }
     }
 
     static void setControlMessage(String message){

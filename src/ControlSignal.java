@@ -37,7 +37,7 @@ class ControlSignal {
             mousePositionY = Simulator.screenHeight;
         }
         if(isControlling()) {
-           lastElevator = 0.03 * (mousePositionY - 0.5 * Simulator.screenHeight);
+           lastElevator = -0.02 * (mousePositionY - 0.5 * Simulator.screenHeight);
         }
         return lastElevator;
     }
@@ -51,7 +51,7 @@ class ControlSignal {
             mousePositionX = Simulator.screenWidth;
         }
         if(isControlling()) {
-            lastAileron = 0.005 * (mousePositionX - 0.5 * Simulator.screenWidth);
+            lastAileron = -0.001 * (mousePositionX - 0.5 * Simulator.screenWidth);
         }
         return lastAileron;
     }

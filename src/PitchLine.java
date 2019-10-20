@@ -1,21 +1,17 @@
 import java.awt.*;
 
-class PitchLine {
+class PitchLine extends IndicationLine{
 
-    private int halfwidth;
-    private double pitchdistance; // 20 pixel per degree
-
-    PitchLine(int width, double distance){
-        halfwidth = width;
-        pitchdistance = distance;
+    PitchLine(int length, double distance){
+        super(length, distance);
     }
 
     void draw(Graphics2D graphics2d, double xm, double ym, double phi){
 
-        int xl = (int) (xm - halfwidth * Math.cos(phi) - pitchdistance * Math.sin(phi)); // left
-        int xr = (int) (xm + halfwidth * Math.cos(phi) - pitchdistance * Math.sin(phi)); // right
-        int yl = (int) (ym + halfwidth * Math.sin(phi) - pitchdistance * Math.cos(phi));
-        int yr = (int) (ym - halfwidth * Math.sin(phi) - pitchdistance * Math.cos(phi));
+        int xl = (int) (xm - length * Math.cos(phi) - distance * Simulator.deg2pxl * Math.sin(phi)); // left
+        int xr = (int) (xm + length * Math.cos(phi) - distance * Simulator.deg2pxl * Math.sin(phi)); // right
+        int yl = (int) (ym + length * Math.sin(phi) - distance * Simulator.deg2pxl * Math.cos(phi));
+        int yr = (int) (ym - length * Math.sin(phi) - distance * Simulator.deg2pxl * Math.cos(phi));
 
         graphics2d.drawLine(xl, yl, xr, yr);
     }

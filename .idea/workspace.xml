@@ -2,21 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57128f5d-cee5-4e12-8df1-f3c70de63d83" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Dynamics.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PitchDynamics.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/RollDynamics.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/HeadingLine.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/IndicationLine.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PitchAndRoll/CessnaDynamics.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PitchAndRoll/ControlSignal$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PitchAndRoll/ControlSignal$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PitchAndRoll/AircraftSymbol.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PitchAndRoll/AircraftSymbol.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/PitchAndRoll/ControlSignal.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PitchAndRoll/ControlSignal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PitchAndRoll/Restart$Restarter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PitchAndRoll/Restart$Restarter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PitchAndRoll/Dynamics.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PitchAndRoll/Dynamics.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PitchAndRoll/PitchDynamics.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PitchAndRoll/PitchDynamics.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PitchAndRoll/PitchLine.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PitchAndRoll/PitchLine.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PitchAndRoll/RollDynamics.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PitchAndRoll/RollDynamics.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PitchAndRoll/RollLine.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PitchAndRoll/RollLine.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/PitchAndRoll/Simulator$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PitchAndRoll/Simulator$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/PitchAndRoll/Simulator$Indicators.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PitchAndRoll/Simulator$Indicators.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/PitchAndRoll/Simulator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PitchAndRoll/Simulator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CessnaDynamics.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AircraftSymbol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AircraftSymbol.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ControlSignal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ControlSignal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pause.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pause.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Restart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Restart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dynamics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dynamics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PitchDynamics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PitchDynamics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PitchLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PitchLine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RollDynamics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RollDynamics.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RollLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RollLine.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Simulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulator.java" afterDir="false" />
     </list>
@@ -31,36 +35,39 @@
     <session id="1923710433">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
-          <entry key="project.open.time.0" value="1" />
-          <entry key="project.open.time.1" value="1" />
-          <entry key="project.open.time.8" value="1" />
+          <entry key="project.closed" value="22" />
+          <entry key="project.open.time.0" value="3" />
+          <entry key="project.open.time.1" value="8" />
+          <entry key="project.open.time.10" value="1" />
+          <entry key="project.open.time.6" value="4" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.open.time.8" value="5" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.opened" value="23" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="1" />
-          <entry key="java" value="12" />
+          <entry key="java" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="1" />
-          <entry key="JAVA" value="12" />
+          <entry key="JAVA" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="class" value="1" />
-          <entry key="java" value="2469" />
+          <entry key="java" value="6298" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CLASS" value="1" />
-          <entry key="JAVA" value="2469" />
+          <entry key="JAVA" value="6298" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
@@ -69,36 +76,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/RollLine.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="185">
-              <caret line="12" column="26" lean-forward="true" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/PitchLine.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="5" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Dynamics.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
-              <folding>
-                <element signature="e#579#580#0" expanded="true" />
-                <element signature="e#630#631#0" expanded="true" />
-                <element signature="e#2229#2230#0" expanded="true" />
-                <element signature="e#2285#2286#0" expanded="true" />
-                <element signature="e#2345#2346#0" expanded="true" />
-                <element signature="e#2403#2404#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="68">
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
             </state>
           </provider>
         </entry>
@@ -106,11 +87,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/PitchDynamics.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" column="43" lean-forward="true" selection-start-line="17" selection-start-column="43" selection-end-line="17" selection-end-column="43" />
+            <state relative-caret-position="425">
+              <caret line="31" column="21" selection-start-line="31" selection-start-column="21" selection-end-line="31" selection-end-column="21" />
               <folding>
-                <element signature="e#311#312#0" expanded="true" />
-                <element signature="e#343#344#0" expanded="true" />
+                <element signature="e#1050#1051#0" expanded="true" />
+                <element signature="e#1078#1079#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -119,69 +100,89 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ControlSignal.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="23" column="71" selection-start-line="23" selection-start-column="71" selection-end-line="23" selection-end-column="71" />
+            <state relative-caret-position="221">
+              <caret line="39" column="31" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#366#818#0" expanded="true" />
-                <element signature="e#817#818#0" expanded="true" />
-                <element signature="e#1803#1804#0" expanded="true" />
-                <element signature="e#1859#1860#0" expanded="true" />
-                <element signature="e#1741#1742#0" expanded="true" />
-                <element signature="e#1775#1776#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Simulator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-688">
+              <caret line="92" column="16" lean-forward="true" selection-start-line="92" selection-start-column="16" selection-end-line="92" selection-end-column="16" />
+              <folding>
+                <element signature="e#6969#6970#0" expanded="true" />
+                <element signature="e#7006#7007#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/RollLine.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="5" selection-start-line="4" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
+              <folding>
+                <element signature="e#101#102#0" expanded="true" />
+                <element signature="e#140#141#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/HeadingLine.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="42" selection-start-line="4" selection-start-column="42" selection-end-line="4" selection-end-column="42" />
+              <folding>
+                <element signature="e#150#151#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/IndicationLine.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/PitchLine.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
+              <folding>
+                <element signature="e#158#159#0" expanded="true" />
+                <element signature="e#197#198#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/AircraftSymbol.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="612">
+              <caret line="36" column="117" selection-start-line="36" selection-start-column="117" selection-end-line="36" selection-end-column="117" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Simulator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="130" column="43" lean-forward="true" selection-start-line="130" selection-start-column="43" selection-end-line="130" selection-end-column="43" />
-              <folding>
-                <element signature="e#5590#5591#0" expanded="true" />
-                <element signature="e#5625#5626#0" expanded="true" />
-                <element signature="e#5584#5585#0" expanded="true" />
-                <element signature="e#5621#5622#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Pause.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="10" column="16" lean-forward="true" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/RollDynamics.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="28" lean-forward="true" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
-              <folding>
-                <element signature="e#83#84#0" expanded="true" />
-                <element signature="e#115#116#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Restart.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="148">
+              <caret line="95" column="85" lean-forward="true" selection-start-line="95" selection-start-column="85" selection-end-line="95" selection-end-column="85" />
             </state>
           </provider>
         </entry>
@@ -195,6 +196,13 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>z</find>
+      <find>rad</find>
+      <find>new roll</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -207,17 +215,19 @@
         <option value="$PROJECT_DIR$/src/DisplayTypeSelector.java" />
         <option value="$PROJECT_DIR$/src/CessnaPitch.java" />
         <option value="$PROJECT_DIR$/src/BaselineDynamics.java" />
-        <option value="$PROJECT_DIR$/src/PitchLine.java" />
-        <option value="$PROJECT_DIR$/src/AircraftSymbol.java" />
         <option value="$PROJECT_DIR$/src/CessnaDynamics.java" />
-        <option value="$PROJECT_DIR$/src/Dynamics.java" />
-        <option value="$PROJECT_DIR$/src/PitchDynamics.java" />
-        <option value="$PROJECT_DIR$/src/RollDynamics.java" />
-        <option value="$PROJECT_DIR$/src/ControlSignal.java" />
-        <option value="$PROJECT_DIR$/src/RollLine.java" />
         <option value="$PROJECT_DIR$/src/Pause.java" />
         <option value="$PROJECT_DIR$/src/Restart.java" />
+        <option value="$PROJECT_DIR$/src/Dynamics.java" />
+        <option value="$PROJECT_DIR$/src/AircraftSymbol.java" />
+        <option value="$PROJECT_DIR$/src/ControlSignal.java" />
+        <option value="$PROJECT_DIR$/src/PitchDynamics.java" />
+        <option value="$PROJECT_DIR$/src/PitchLine.java" />
+        <option value="$PROJECT_DIR$/src/HeadingLine.java" />
+        <option value="$PROJECT_DIR$/src/IndicationLine.java" />
+        <option value="$PROJECT_DIR$/src/RollLine.java" />
         <option value="$PROJECT_DIR$/src/Simulator.java" />
+        <option value="$PROJECT_DIR$/src/RollDynamics.java" />
       </list>
     </option>
   </component>
@@ -228,10 +238,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="260" />
-    <option name="y" value="20" />
-    <option name="width" value="1400" />
-    <option name="height" value="990" />
+    <option name="x" value="-35" />
+    <option name="y" value="366" />
+    <option name="width" value="1933" />
+    <option name="height" value="675" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -239,7 +249,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -257,16 +266,21 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SearchEverywhereHistoryKey" value="github&#9;ACTION&#9;Github.Share" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1571587799915" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../workspace/Java2DRacingPhysicsTest-master" />
     <property name="settings.editor.selected.configurable" value="database.main" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\marti\IdeaProjects\PitchAndRoll\src" />
     </key>
@@ -361,7 +375,7 @@
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2295302" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18120806" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -370,7 +384,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3286119" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3371105" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -419,108 +433,112 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AircraftSymbol.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
+        <state relative-caret-position="612">
+          <caret line="36" column="117" selection-start-line="36" selection-start-column="117" selection-end-line="36" selection-end-column="117" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/PitchDynamics.java">
+    <entry file="file://$PROJECT_DIR$/src/Pause.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="43" lean-forward="true" selection-start-line="17" selection-start-column="43" selection-end-line="17" selection-end-column="43" />
+        <state>
+          <caret column="21" selection-start-column="21" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Restart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="34" column="20" selection-start-line="34" selection-start-column="20" selection-end-line="34" selection-end-column="20" />
           <folding>
-            <element signature="e#311#312#0" expanded="true" />
-            <element signature="e#343#344#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Dynamics.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
-          <folding>
-            <element signature="e#579#580#0" expanded="true" />
-            <element signature="e#630#631#0" expanded="true" />
-            <element signature="e#2229#2230#0" expanded="true" />
-            <element signature="e#2285#2286#0" expanded="true" />
-            <element signature="e#2345#2346#0" expanded="true" />
-            <element signature="e#2403#2404#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/PitchLine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="5" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/RollLine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="12" column="26" lean-forward="true" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/RollDynamics.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="28" lean-forward="true" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
-          <folding>
-            <element signature="e#83#84#0" expanded="true" />
-            <element signature="e#115#116#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#286#287#0" expanded="true" />
+            <element signature="e#328#329#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ControlSignal.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="23" column="71" selection-start-line="23" selection-start-column="71" selection-end-line="23" selection-end-column="71" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#366#818#0" expanded="true" />
-            <element signature="e#817#818#0" expanded="true" />
-            <element signature="e#1803#1804#0" expanded="true" />
-            <element signature="e#1859#1860#0" expanded="true" />
-            <element signature="e#1741#1742#0" expanded="true" />
-            <element signature="e#1775#1776#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Pause.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="10" column="16" lean-forward="true" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
+        <state relative-caret-position="221">
+          <caret line="39" column="31" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Restart.java">
+    <entry file="file://$PROJECT_DIR$/src/Dynamics.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="68">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/PitchDynamics.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="31" column="21" selection-start-line="31" selection-start-column="21" selection-end-line="31" selection-end-column="21" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#1050#1051#0" expanded="true" />
+            <element signature="e#1078#1079#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/PitchLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+          <folding>
+            <element signature="e#158#159#0" expanded="true" />
+            <element signature="e#197#198#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/HeadingLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="42" selection-start-line="4" selection-start-column="42" selection-end-line="4" selection-end-column="42" />
+          <folding>
+            <element signature="e#150#151#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IndicationLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/RollLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="5" selection-start-line="4" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
+          <folding>
+            <element signature="e#101#102#0" expanded="true" />
+            <element signature="e#140#141#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Simulator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="130" column="43" lean-forward="true" selection-start-line="130" selection-start-column="43" selection-end-line="130" selection-end-column="43" />
+        <state relative-caret-position="-688">
+          <caret line="92" column="16" lean-forward="true" selection-start-line="92" selection-start-column="16" selection-end-line="92" selection-end-column="16" />
           <folding>
-            <element signature="e#5590#5591#0" expanded="true" />
-            <element signature="e#5625#5626#0" expanded="true" />
-            <element signature="e#5584#5585#0" expanded="true" />
-            <element signature="e#5621#5622#0" expanded="true" />
+            <element signature="e#6969#6970#0" expanded="true" />
+            <element signature="e#7006#7007#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/RollDynamics.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="95" column="85" lean-forward="true" selection-start-line="95" selection-start-column="85" selection-end-line="95" selection-end-column="85" />
         </state>
       </provider>
     </entry>
