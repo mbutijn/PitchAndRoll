@@ -28,14 +28,10 @@ class Restart {
             simulator.rollDynamics.reset();
 
             if (restartButton.getText().equals("Start") || restartButton.getText().equals("Restart")) {
-                JButton pauseButton = Simulator.pauseButton;
                 restartButton.setText("Stop");
-                pauseButton.setEnabled(true);
-                pauseButton.setText("Pause");
                 simulator.getTimer().start();
             } else if (restartButton.getText().equals("Stop")){
                 simulator.getTimer().stop();
-                Simulator.pauseButton.setEnabled(false);
                 restartButton.setText("Restart");
             }
         }

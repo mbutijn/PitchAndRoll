@@ -4,18 +4,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Simulator {
+public class Simulator extends JFrame {
 
     private Indicators indicators = new Indicators();
     ControlSignal controlSignal;
-    private AircraftSymbol aircraftSymbol;
+    private AircraftSymbol aircraft;
     private Timer timer;
     PitchDynamics pitchDynamics;
     RollDynamics rollDynamics;
     private static String controlMessage = "";
-
+    private Label climbRateIndicator = new Label("0 feet/min");
+    private Label airSpeedIndicator = new Label("0 knts");
     private static final int SAMPLE_FREQUENCY = 100; // Hertz
-    private TextField textField = new TextField();
+    private TextField textField = new TextField("                                                                                      ");
     private double alfa, theta, phi, beta, psi; // Euler angles body frame
     static final int screenHeight = 800, screenWidth = 1000;
     static public int deg2pxl = 20; // One degree is 20 pixels
@@ -24,32 +25,43 @@ public class Simulator {
     private ArrayList<PitchLine> pitchLines = new ArrayList<>();
     private ArrayList<RollLine> rollLines = new ArrayList<>();
     private ArrayList<HeadingLine> headingLines = new ArrayList<>();
-    static JButton pauseButton;
+    private Rudder rudderIndicator;
+    private Thrust thrustIndicator;
 
     public static void main (String[] arg){
-        JFrame frame = new JFrame("Cessna pitch and roll simulator");
-        Simulator simulator = new Simulator();
-        simulator.makeUI(frame, simulator);
-
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(screenWidth, screenHeight);
-        frame.setResizable(false);
+        new Simulator().makeUI();
     }
 
-    private void makeUI(JFrame frame, Simulator simulator){
-        frame.getContentPane().add(BorderLayout.CENTER, indicators);
+    private void makeUI(){
+        setTitle("Cessna flight simulator");
+
+        setVisible(true);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setSize(screenWidth, screenHeight);
+        setResizable(false);
+        getContentPane().add(BorderLayout.CENTER, indicators);
+
+        Panel eastPanel = new Panel();
+        eastPanel.setPreferredSize(new Dimension(90, 50));
+        Panel eastPanel2 = new Panel();
+        eastPanel2.setLayout(new GridLayout(2,1));
+        eastPanel2.setPreferredSize(new Dimension(90, 50));
+        eastPanel2.add(climbRateIndicator);
+        eastPanel2.add(airSpeedIndicator);
+        eastPanel.add(eastPanel2);
+        getContentPane().add(BorderLayout.EAST, eastPanel);
 
         textField.setEditable(false);
-        controlSignal = new ControlSignal(frame);
+        controlSignal = new ControlSignal(this);
+        setKeyBoardListeners(controlSignal);
         calculateSides();
-        aircraftSymbol = new AircraftSymbol(left, right);
+        aircraft = new AircraftSymbol(left, right);
 
         // Add pitch ladder
         PitchLine horizon = new PitchLine(1000, 0);
         pitchLines.add(horizon);
-        addPitchLines(-40.0, 40.0, 10, 200); // every 10 degrees
-        addPitchLines(-35.0, 35.0, 10, 133); // every 5 degrees
+        addPitchLines(-110.0, 110.0, 10, 200); // every 10 degrees
+        addPitchLines(-105.0, 105.0, 10, 133); // every 5 degrees
         addPitchLines(-17.5, 17.5, 5, 67); // every 2.5 degrees
 
         // Add roll indicator
@@ -60,24 +72,33 @@ public class Simulator {
         addHeadingLines(0, 270, 90, 50);
         addHeadingLines(10, 350, 10, 20);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(6, 1));
-        panel.add(new Restart(simulator).makeButton());
-        pauseButton = new Pause(simulator).makeButton();
-        panel.add(pauseButton);
+        // Add the rudder
+        rudderIndicator = new Rudder();
 
-        JPanel panel2 = new JPanel();
-        panel2.add(panel, BorderLayout.CENTER);
+        // Add the Thrust lever
+        thrustIndicator = new Thrust();
 
-        frame.getContentPane().add(BorderLayout.NORTH, textField);
-        frame.getContentPane().add(BorderLayout.EAST, panel2);
+        JPanel buttonPanel = new JPanel();
+        JButton restart = new Restart(this).makeButton();
+        restart.setFocusable(false);
+        buttonPanel.add(restart);
 
+        JPanel northPanel = new JPanel();
+        northPanel.add(textField);
+        northPanel.add(buttonPanel);
+
+        getContentPane().add(BorderLayout.NORTH, northPanel);
         pitchDynamics = new PitchDynamics(SAMPLE_FREQUENCY);
         rollDynamics = new RollDynamics(SAMPLE_FREQUENCY);
 
         timer = new Timer(1000 / SAMPLE_FREQUENCY, actionListener);
         timer.setRepeats(true);
+    }
 
+    private void setKeyBoardListeners(ControlSignal cs) {
+        setFocusable(true);
+        requestFocusInWindow();
+        addKeyListener(cs);
     }
 
     private void addPitchLines(double start, double end, int spacing, int length){
@@ -111,34 +132,40 @@ public class Simulator {
     private ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent evt) {
             // Get the controls
-            double elevator = controlSignal.getElevator();
-            double aileron = controlSignal.getAileron();
+            double elevator = controlSignal.getElevator(); // symmetric control inputs
+            double thrust = controlSignal.getThrust();
+            double aileron = controlSignal.getAileron(); // asymmetric control inputs
+            double rudder = controlSignal.getRudderValue();
 
-            // Calculate the attitude angles
-
-            //theta = pitchDynamics.updateThetaOld(-Math.cos(phi)*elevator);
-
-            pitchDynamics.updateU(Math.cos(phi)*elevator);
-            pitchDynamics.updateAlfa(elevator);
-            pitchDynamics.updateTheta();
-            pitchDynamics.updateQC_over_V(Math.cos(phi)*elevator);
+            // Evaluate symmetric EOM
+            pitchDynamics.updateU(elevator, thrust);
+            pitchDynamics.updateAlfa(elevator, thrust);
+            boolean toggleRoll = pitchDynamics.updateTheta();
+            pitchDynamics.updateQC_over_V(Math.cos(phi)*elevator, thrust, toggleRoll);
 
             theta = pitchDynamics.getTheta();
             alfa = pitchDynamics.getAlfa();
 
-            //phi = rollDynamics.updatePhiOld(-aileron);
-            rollDynamics.updateBeta(aileron);
-            rollDynamics.updatePhi(aileron);
-            rollDynamics.updatePb_over_2V(aileron);
-            rollDynamics.updateRb_over_2V(aileron);
+            // Evaluate asymmetric EOM
+            rollDynamics.updateBeta(rudder);
+            rollDynamics.updatePhi(toggleRoll);
+            rollDynamics.updatePb_over_2V(aileron, rudder);
+            rollDynamics.updateRb_over_2V(aileron, rudder);
 
             phi = rollDynamics.getPhi();
             beta = rollDynamics.getBeta();
-            psi = Math.toDegrees(rollDynamics.getPsi());
+            psi = Math.toDegrees(rollDynamics.getPsi(toggleRoll));
 
             // Update the text field
-            textField.setText(String.format("theta = %.1f, deg; phi = %.1f, deg; psi = %.1f, deg; u = %.1f, m/s; delta_e = %.1f, deg; delta_a = %.1f deg%s",
-                    theta, Math.toDegrees(phi), psi, pitchDynamics.u, elevator, aileron, getControlMessage()));
+            textField.setText(String.format("θ = %.1f°; φ = %.1f°; ψ = %.0f°; δ_e = %.1f°; δ_a = %.1f°; δ_r = %.1f°%s",
+                    theta, Math.toDegrees(phi), psi, elevator, aileron, rudder, getControlMessage()));
+
+            // Update the climbRateIndicator and airspeed
+            double airspeed = 59.9 + pitchDynamics.getU();
+            airSpeedIndicator.setText(String.format("%.1f knts", airspeed * 1.9438));
+
+            double climbRate = Math.sin(Math.toRadians(theta - alfa)) * airspeed;
+            climbRateIndicator.setText(String.format("%.0f feet/min", climbRate*196.850));
 
             // Repaint
             indicators.repaint();
@@ -165,7 +192,7 @@ public class Simulator {
             }
 
             // Draw roll indication
-            graphics.drawArc((int)(midX - 0.75*halfBarLength), (int)(midY - 0.75*halfBarLength), (int)(1.5*halfBarLength), (int)(1.5*halfBarLength), (int)(Math.round(Math.toDegrees(phi) + 10)), 160);
+            graphics2d.drawArc((int)(midX - 0.75*halfBarLength), (int)(midY - 0.75*halfBarLength), (int)(1.5*halfBarLength), (int)(1.5*halfBarLength), (int)(Math.round(Math.toDegrees(phi) + 10)), 160);
             graphics2d.drawLine((int)(midX - 10), 50, (int)(midX), 70);
             graphics2d.drawLine((int)(midX), 70, (int)(midX+10), 50);
 
@@ -174,19 +201,23 @@ public class Simulator {
                 rollLine.draw(graphics2d, 0.75 * halfBarLength, phi);
             }
 
-            // Draw the edges
-            //graphics2d.drawRect((int)left,50,(int)(right - left), screenHeight - 200);
-            graphics.drawLine(0, 50, screenWidth, 50);
-
+            // Draw heading indicator
+            graphics2d.drawLine(0, 50, screenWidth, 50);
             for (HeadingLine headingLine : headingLines){
                 headingLine.draw(graphics2d, psi);
             }
 
-            //Draw the aircraft Symbol
-            aircraftSymbol.makeSymbol(graphics2d);
+            //Draw the pitch symbol
+            aircraft.makePitchSymbol(graphics2d);
 
             // Draw the flight path indication
-            aircraftSymbol.makeFlightPathIndicator(graphics2d, deg2pxl*alfa, deg2pxl*beta);
+            aircraft.makeFlightPathIndicator(graphics2d, deg2pxl*(Math.cos(-phi)*beta - Math.sin(-phi)*alfa), deg2pxl*(Math.sin(-phi)*beta + Math.cos(-phi)*alfa));
+
+            // Draw the rudder indication
+            rudderIndicator.draw(graphics2d, controlSignal.getRudder());
+
+            // Draw the thrust indication
+            thrustIndicator.draw(graphics2d, controlSignal.getThrust());
         }
     }
 

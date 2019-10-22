@@ -22,7 +22,7 @@ class AircraftSymbol {
         rightFP = (int) midX + 50;
     }
 
-    void makeSymbol(Graphics2D graphics2d) {
+    void makePitchSymbol(Graphics2D graphics2d) {
 
         graphics2d.drawLine((int)left1, (int) (midY), (int)left2, (int) (midY));
         graphics2d.drawLine((int)right2, (int) (midY), (int)right3, (int) (midY));
@@ -33,8 +33,8 @@ class AircraftSymbol {
         graphics2d.drawLine((int)left3, (int) (midY), (int)right1, (int) (midY));
     }
 
-    void makeFlightPathIndicator(Graphics2D graphics2d, double alfa, double beta){
-        graphics2d.drawLine((int)Math.round(leftFP + beta), (int)Math.round(midY + alfa) , (int)Math.round(rightFP + beta), (int)Math.round(midY + alfa));
+    void makeFlightPathIndicator(Graphics2D graphics2d, double x, double y){
+        graphics2d.drawLine((int)Math.round(leftFP + x), (int)Math.round(midY + y) , (int)Math.round(rightFP + x), (int)Math.round(midY + y));
     }
 
 }
