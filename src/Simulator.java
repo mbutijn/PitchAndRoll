@@ -6,22 +6,24 @@ import java.util.ArrayList;
 
 public class Simulator extends JFrame {
 
+    static final int screenHeight = 800, screenWidth = 1000;
+    static int deg2pxl = 20; // One degree is 20 pixels
+    static double midX, midY;
     private Indicators indicators = new Indicators();
     ControlSignal controlSignal;
     private AircraftSymbol aircraft;
     private Timer timer;
-    PitchDynamics pitchDynamics;
-    RollDynamics rollDynamics;
+    SymmetricMotion pitchDynamics;
+    AsymmetricMotion rollDynamics;
     private static String controlMessage = "";
     private Label climbRateIndicator = new Label("0 feet/min");
-    private Label airSpeedIndicator = new Label("0 knts");
+    private Label airSpeedIndicator = new Label("116.4 knts");
+    private Label altiudeIndicator = new Label("10000 feet");
     private static final int SAMPLE_FREQUENCY = 100; // Hertz
+    private static final double MPS_TO_KNTS = 1.9438, MPS_TO_FEETPMIN = 196.850, M_TO_FEET = 3.2808;
     private TextField textField = new TextField("                                                                                      ");
     private double alfa, theta, phi, beta, psi; // Euler angles body frame
-    static final int screenHeight = 800, screenWidth = 1000;
-    static public int deg2pxl = 20; // One degree is 20 pixels
     private double left, right, halfBarLength;
-    public static double midX, midY;
     private ArrayList<PitchLine> pitchLines = new ArrayList<>();
     private ArrayList<RollLine> rollLines = new ArrayList<>();
     private ArrayList<HeadingLine> headingLines = new ArrayList<>();
@@ -42,13 +44,14 @@ public class Simulator extends JFrame {
         getContentPane().add(BorderLayout.CENTER, indicators);
 
         Panel eastPanel = new Panel();
-        eastPanel.setPreferredSize(new Dimension(90, 50));
-        Panel eastPanel2 = new Panel();
-        eastPanel2.setLayout(new GridLayout(2,1));
-        eastPanel2.setPreferredSize(new Dimension(90, 50));
-        eastPanel2.add(climbRateIndicator);
-        eastPanel2.add(airSpeedIndicator);
-        eastPanel.add(eastPanel2);
+        eastPanel.setPreferredSize(new Dimension(90, 70));
+        Panel eastPanel_small = new Panel();
+        eastPanel_small.setLayout(new GridLayout(3,1));
+        eastPanel_small.setPreferredSize(new Dimension(90, 70));
+        eastPanel_small.add(climbRateIndicator);
+        eastPanel_small.add(airSpeedIndicator);
+        eastPanel_small.add(altiudeIndicator);
+        eastPanel.add(eastPanel_small);
         getContentPane().add(BorderLayout.EAST, eastPanel);
 
         textField.setEditable(false);
@@ -88,8 +91,8 @@ public class Simulator extends JFrame {
         northPanel.add(buttonPanel);
 
         getContentPane().add(BorderLayout.NORTH, northPanel);
-        pitchDynamics = new PitchDynamics(SAMPLE_FREQUENCY);
-        rollDynamics = new RollDynamics(SAMPLE_FREQUENCY);
+        pitchDynamics = new SymmetricMotion(SAMPLE_FREQUENCY);
+        rollDynamics = new AsymmetricMotion(SAMPLE_FREQUENCY);
 
         timer = new Timer(1000 / SAMPLE_FREQUENCY, actionListener);
         timer.setRepeats(true);
@@ -160,12 +163,14 @@ public class Simulator extends JFrame {
             textField.setText(String.format("θ = %.1f°; φ = %.1f°; ψ = %.0f°; δ_e = %.1f°; δ_a = %.1f°; δ_r = %.1f°%s",
                     theta, Math.toDegrees(phi), psi, elevator, aileron, rudder, getControlMessage()));
 
-            // Update the climbRateIndicator and airspeed
-            double airspeed = 59.9 + pitchDynamics.getU();
-            airSpeedIndicator.setText(String.format("%.1f knts", airspeed * 1.9438));
+            // Update airspeed
+            airSpeedIndicator.setText(String.format("%.1f knts", pitchDynamics.getAirspeed() * MPS_TO_KNTS));
 
-            double climbRate = Math.sin(Math.toRadians(theta - alfa)) * airspeed;
-            climbRateIndicator.setText(String.format("%.0f feet/min", climbRate*196.850));
+            // Update climbRate
+            climbRateIndicator.setText(String.format("%.0f feet/min", pitchDynamics.getClimbRate() * MPS_TO_FEETPMIN));
+
+            // Update altitude
+            altiudeIndicator.setText(String.format("%.0f feet", pitchDynamics.getAltitude() * M_TO_FEET));
 
             // Repaint
             indicators.repaint();
@@ -192,7 +197,8 @@ public class Simulator extends JFrame {
             }
 
             // Draw roll indication
-            graphics2d.drawArc((int)(midX - 0.75*halfBarLength), (int)(midY - 0.75*halfBarLength), (int)(1.5*halfBarLength), (int)(1.5*halfBarLength), (int)(Math.round(Math.toDegrees(phi) + 10)), 160);
+            int size = (int)(1.5*halfBarLength);
+            graphics2d.drawArc((int)(midX - 0.75*halfBarLength), (int)(midY - 0.75*halfBarLength), size, size, (int)(Math.round(Math.toDegrees(phi) + 10)), 160);
             graphics2d.drawLine((int)(midX - 10), 50, (int)(midX), 70);
             graphics2d.drawLine((int)(midX), 70, (int)(midX+10), 50);
 

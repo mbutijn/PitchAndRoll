@@ -1,13 +1,13 @@
 import static java.lang.Math.PI;
 
-class RollDynamics extends Dynamics {
+class AsymmetricMotion extends Dynamics {
     private final double b; // span width
     private double yb, yphi, yp, yr, yda, ydr;
     private double lb, lp, lr, lda, ldr;
     private double nb, np, nr, nda, ndr;
     private double beta, betadot, phi, phidot, pb_over_2V, pb_over_2Vdot, rb_over_2V, rb_over_2Vdot, psi; // Asymmetric motion
 
-    RollDynamics(int frequency) {
+    AsymmetricMotion(int frequency) {
         super(frequency);
         b = 13.36;
         double CL = 1.1360;

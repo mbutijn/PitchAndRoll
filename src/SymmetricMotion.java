@@ -1,12 +1,13 @@
-class PitchDynamics extends Dynamics {
+class SymmetricMotion extends Dynamics {
 
     private final double c; // chord length
     private double xu, xa, xt, xq, xde, xdt; // horizontal force derivatives
     private double zu, za, zt, zq, zde, zdt; // vertical force derivatives
     private double mu, ma, mt, mq, mde, mdt; // moment derivatives
-    private double u, udot, alfa, alfadot, theta, thetadot, qc_over_V, qc_over_Vdot; // symmetric motion
+    private double u, udot, alfa, alfadot, theta, thetadot, qc_over_V, qc_over_Vdot; // variables
+    private double airspeed, climbrate, altitude = 3048; // m
 
-    PitchDynamics(int frequency) {
+    SymmetricMotion(int frequency) {
         super(frequency);
         c = 2.022;
         double twmuc = 2 * 102.7;
@@ -103,6 +104,21 @@ class PitchDynamics extends Dynamics {
 
     public double getQC_over_V(){
         return qc_over_V;
+    }
+
+    public double getAirspeed() {
+        airspeed = V + u;
+        return airspeed;
+    }
+
+    public double getClimbRate() {
+        climbrate = Math.sin(Math.toRadians(theta - alfa)) * airspeed;
+        return climbrate;
+    }
+
+    public double getAltitude(){
+        altitude = integrate(altitude, climbrate);
+        return altitude;
     }
 
     void reset() {
